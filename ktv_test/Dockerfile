@@ -9,7 +9,8 @@ RUN apt-get update && \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN composer global require "phpunit/phpunit=5.6.3"
+RUN composer global require "phpunit/phpunit=5.6.3" && \
+    ln -s  ~/.composer/vendor/bin/phpunit   /usr/bin/
 
 RUN mkdir /run/php /opt/tmp && \
 	chown www-data /opt/tmp

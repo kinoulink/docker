@@ -16,8 +16,7 @@ RUN apt-get update && \
 					php-intl \
 					git
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    ln -s  ~/.composer/vendor/bin/phpunit   /usr/bin/
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 RUN apt-get remove -y curl && \
     rm -rf /var/lib/apt/lists/*
