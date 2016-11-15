@@ -36,4 +36,6 @@ EXPOSE 80
 
 RUN rm -rf /var/lib/apt/lists/*
 
+ENV STAGE_ENV=prod
+
 WORKDIR /var/www
