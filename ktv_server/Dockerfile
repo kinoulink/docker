@@ -28,6 +28,7 @@ RUN mkdir -p /opt/ktv/fs/cache /var/lib/php/session && \
 ADD config/nginx.conf /etc/nginx/nginx.conf
 ADD config/php.ini    /etc/php/7.0/fpm/php.ini
 ADD config/php.ini    /etc/php/7.0/cli/php.ini
+ADD config/pool.conf  /etc/php/7.0/fpm/pool.d/www.conf
 
 RUN rm -rf /etc/service/{sshd,syslog-forwarder,syslog-ng} && \
     rm -rf /etc/my_init.d/00_regen_ssh_host_keys.sh
