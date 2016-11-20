@@ -2,25 +2,31 @@
 
 rm -rf /etc/service/{sshd,syslog-forwarder,syslog-ng}
 
-cd /var/www
-
-rm -rf ./*
-
-if [ -z "$RELEASE_ID" ]; then
-    releaseUrl="https://gitlab.com/kinoulink/mon.affichage.cloud/builds/artifacts/master/download?job=build"
+if [ -z "$GITLAB_ACCESS_TOKEN" ]; then
+    echo "No token found, no download release"
 else
-    releaseUrl="https://gitlab.com/kinoulink/mon.affichage.cloud/builds/$RELEASE_ID/artifacts/download"
+    cd /var/www
+
+    rm -rf ./*
+
+    if [ -z "$RELEASE_ID" ]; then
+        releaseUrl="https://gitlab.com/kinoulink/mon.affichage.cloud/builds/artifacts/master/download?job=build"
+    else
+        releaseUrl="https://gitlab.com/kinoulink/mon.affichage.cloud/builds/$RELEASE_ID/artifacts/download"
+    fi
+
+    echo "Downloading release from $releaseUrl .."
+
+    curl -L \
+        --header "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" \
+        -o release.zip \
+        $releaseUrl
+
+    unzip release.zip
+
+    unlink release.zip
+
+    chown www-data:www-data -R .
+
+    setuser www-data php app/console --env=$KTV_ENV cache:warmup
 fi
-
-echo "Downloading release from $releaseUrl .."
-
-curl -L \
-    --header "PRIVATE-TOKEN: ${GITLAB_ACCESS_TOKEN}" \
-    -o release.zip \
-    $releaseUrl
-
-unzip release.zip
-
-unlink release.zip
-
-chown www-data:www-data -R .
