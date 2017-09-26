@@ -1,13 +1,34 @@
 FROM phusion/baseimage:0.9.19
 
-ENV DEBIAN_FRONTEND=noninteractive
+# Set the env variable DEBIAN_FRONTEND to noninteractive
+ARG DEBIAN_FRONTEND=noninteractive
+ARG LC_ALL=C.UTF-8
 
 RUN apt-get update && \
-	apt-get install -y \
-	                curl unzip \
-					php php-curl php-zip php-pdo php-gd php-xml php-apcu php-mysql php-intl \
-					nginx-light \
-					ffmpeg
+	add-apt-repository -y ppa:ondrej/php && \
+	apt-get update && \
+	apt-get install -y --no-install-recommends  \
+			curl unzip \
+			php7.1 \
+			php7.1-cli \
+			php7.1-common \
+			php7.1-curl \
+			php7.1-dev \
+			php7.1-fpm \
+			php7.1-gd \
+			php7.1-gmp \
+			php7.1-intl \
+			php7.1-json \
+			php7.1-mbstring \
+			php7.1-mysql \
+			php7.1-oauth \
+			php7.1-opcache \
+			php-7.1-pdo \
+			php7.1-xml \
+			php7.1-zip \
+			php7.1-yaml \
+			nginx-light \
+			ffmpeg
 
 RUN mkdir /run/php /etc/service/nginx /etc/service/php /opt/tmp && \
 	chown www-data /opt/tmp
