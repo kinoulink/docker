@@ -3,6 +3,9 @@ FROM ubuntu:16.10
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
+	apt-get install -y python-software-properties && \
+	add-apt-repository -y ppa:ondrej/php && \
+	apt-get update -y && \
 	apt-get install -y  \
 	                curl \
 					php-cli \
